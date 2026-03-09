@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIで価値を生み出す思考と技術 — 諫山圭司・福田匠磨</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700;900&family=Noto+Sans+JP:wght@300;400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0a0e2a;
+  --navy-mid:#1a1f45;
+  --gold:#b8952e;
+  --gold-light:#d4b44a;
+  --gold-pale:#e8d697;
+  --white:#ffffff;
+  --off-white:#f8f7f3;
+  --cream:#f2f0e8;
+  --text-dark:#1c1c1c;
+  --text-body:#3a3a3a;
+  --text-mid:#6a6a6a;
+  --text-light:#999;
+  --border:#e0ddd5;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',sans-serif;
+  color:var(--text-dark);background:var(--white);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ===== HERO ===== */
+.hero{
+  min-height:100vh;
+  background:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  padding:80px 20px;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 50% 60% at 30% 70%, rgba(184,149,46,.04) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 75% 30%, rgba(10,14,42,.02) 0%, transparent 50%);
+}
+.hero-inner{
+  position:relative;z-index:2;
+  display:flex;align-items:center;gap:80px;
+  max-width:1060px;width:100%;
+}
+.hero-book{
+  flex-shrink:0;width:360px;
+  perspective:1200px;
+}
+.book-wrapper{
+  position:relative;
+  transform:rotateY(-6deg);
+  transition:transform .6s cubic-bezier(.25,.46,.45,.94);
+  transform-style:preserve-3d;
+}
+.book-wrapper:hover{transform:rotateY(-1deg) scale(1.02)}
+.book-wrapper img{
+  width:100%;height:auto;display:block;
+  border-radius:2px;
+  box-shadow:
+    24px 24px 64px rgba(10,14,42,.12),
+    8px 8px 24px rgba(10,14,42,.08),
+    0 0 0 1px rgba(10,14,42,.04);
+}
+.book-wrapper::after{
+  content:'';position:absolute;
+  top:4px;right:-16px;bottom:4px;width:16px;
+  background:linear-gradient(90deg, #1a1f45, #0d1130);
+  transform:rotateY(90deg);
+  transform-origin:left center;
+  border-radius:0 2px 2px 0;
+}
+.book-shine{
+  position:absolute;inset:0;
+  background:linear-gradient(110deg, transparent 30%, rgba(255,255,255,.1) 45%, transparent 55%);
+  pointer-events:none;border-radius:2px;
+}
+
+.hero-text{flex:1}
+.hero-label{
+  display:inline-block;
+  font-family:'Noto Sans JP';font-weight:600;font-size:.7rem;
+  color:var(--gold);letter-spacing:.25em;
+  border:1px solid var(--gold);
+  padding:6px 16px;border-radius:2px;
+  margin-bottom:28px;
+  opacity:0;animation:fadeUp .7s .2s ease forwards;
+}
+.hero-catch{
+  font-family:'Shippori Mincho';font-weight:800;
+  font-size:clamp(1.6rem,3.2vw,2.5rem);
+  line-height:1.7;color:var(--navy);
+  margin-bottom:24px;
+  opacity:0;animation:fadeUp .7s .35s ease forwards;
+}
+.hero-catch em{
+  font-style:normal;
+  color:var(--gold);
+}
+.hero-lead{
+  font-size:.92rem;line-height:2.1;color:var(--text-body);
+  font-weight:400;margin-bottom:40px;
+  opacity:0;animation:fadeUp .7s .5s ease forwards;
+}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:16px 44px;
+  background:var(--navy);
+  color:var(--white);font-weight:600;font-size:.9rem;
+  border:none;border-radius:2px;cursor:pointer;
+  text-decoration:none;
+  transition:all .3s ease;
+  opacity:0;animation:fadeUp .7s .65s ease forwards;
+  letter-spacing:.08em;
+}
+.hero-cta:hover{
+  background:var(--navy-mid);
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(10,14,42,.15);
+}
+.hero-cta svg{width:18px;height:18px;transition:transform .3s}
+.hero-cta:hover svg{transform:translateX(4px)}
+
+.hero-meta{
+  margin-top:20px;
+  font-size:.75rem;color:var(--text-light);
+  letter-spacing:.03em;
+  opacity:0;animation:fadeUp .7s .75s ease forwards;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ===== SECTIONS ===== */
+section{padding:100px 20px}
+.container{max-width:800px;margin:0 auto}
+.container-wide{max-width:1000px;margin:0 auto}
+.section-divider{
+  width:48px;height:1px;
+  background:var(--gold);
+  margin:0 auto 48px;
+}
+
+/* ===== INTRO POEM ===== */
+.intro-section{
+  background:var(--off-white);
+  text-align:center;
+  padding:120px 20px;
+}
+.intro-poem{
+  font-family:'Shippori Mincho';
+  font-size:clamp(1rem,1.8vw,1.2rem);
+  line-height:2.4;
+  color:var(--text-dark);
+  font-weight:500;
+  max-width:560px;margin:0 auto;
+}
+.intro-poem .highlight{
+  font-weight:700;
+  color:var(--navy);
+  font-size:1.15em;
+}
+.intro-poem .gold{
+  color:var(--gold);
+  font-weight:700;
+}
+.poem-block{margin-bottom:48px}
+.poem-block:last-child{margin-bottom:0}
+
+/* ===== MAIL ===== */
+.mail-section{
+  background:var(--white);
+  padding:100px 20px;
+}
+.mail-intro{
+  text-align:center;margin-bottom:56px;
+}
+.mail-intro-label{
+  font-family:'Noto Sans JP';font-weight:500;font-size:.72rem;
+  color:var(--gold);letter-spacing:.3em;margin-bottom:16px;
+}
+.mail-intro h2{
+  font-family:'Shippori Mincho';font-weight:700;
+  font-size:clamp(1.3rem,2.5vw,1.8rem);
+  color:var(--navy);line-height:1.6;
+}
+.mail-card{
+  max-width:640px;margin:0 auto;
+  border:1px solid var(--border);
+  border-radius:6px;
+  overflow:hidden;
+  box-shadow:0 4px 24px rgba(0,0,0,.04);
+}
+.mail-header{
+  background:var(--off-white);
+  padding:20px 28px;
+  border-bottom:1px solid var(--border);
+}
+.mail-header-row{
+  display:flex;align-items:center;gap:8px;
+  font-size:.8rem;color:var(--text-mid);
+  margin-bottom:6px;
+}
+.mail-header-row strong{color:var(--text-dark);font-weight:600}
+.mail-subject{
+  font-family:'Shippori Mincho';
+  font-size:1.15rem;font-weight:700;color:var(--navy);
+  margin-top:8px;
+}
+.mail-body{
+  padding:32px 28px;
+  font-size:.88rem;line-height:2.1;color:var(--text-body);
+  position:relative;
+}
+.mail-body p{margin-bottom:16px}
+.mail-body::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:80px;
+  background:linear-gradient(transparent, var(--white));
+}
+.mail-ellipsis{
+  text-align:center;
+  font-size:1.4rem;color:var(--text-light);
+  letter-spacing:.3em;
+  padding:8px 0 16px;
+}
+
+/* ===== QUESTION ===== */
+.question-section{
+  background:var(--off-white);
+  padding:100px 20px;
+  text-align:center;
+}
+.question-main{
+  font-family:'Shippori Mincho';font-weight:700;
+  font-size:clamp(1.2rem,2.5vw,1.7rem);
+  color:var(--navy);line-height:1.8;
+  margin-bottom:48px;
+}
+.question-body{
+  max-width:680px;margin:0 auto;
+  font-size:.9rem;line-height:2.2;color:var(--text-body);
+  text-align:left;
+}
+.question-body p{margin-bottom:20px}
+
+/* ===== PAIN ===== */
+.pain-section{
+  background:var(--white);
+  padding:100px 20px;
+}
+.pain-label{
+  text-align:center;
+  font-family:'Noto Sans JP';font-weight:500;font-size:.72rem;
+  color:var(--gold);letter-spacing:.3em;margin-bottom:16px;
+}
+.pain-heading{
+  text-align:center;
+  font-family:'Shippori Mincho';font-weight:700;
+  font-size:clamp(1.2rem,2.5vw,1.6rem);
+  color:var(--navy);line-height:1.6;
+  margin-bottom:48px;
+}
+.pain-list{
+  display:flex;flex-direction:column;gap:16px;
+  max-width:660px;margin:0 auto;
+}
+.pain-item{
+  padding:24px 28px;
+  background:var(--off-white);
+  border-radius:4px;
+  font-size:.92rem;line-height:1.8;color:var(--text-body);
+  font-weight:500;
+  border-left:3px solid var(--gold);
+  transition:transform .3s, box-shadow .3s;
+}
+.pain-item:hover{
+  transform:translateX(4px);
+  box-shadow:0 4px 16px rgba(0,0,0,.04);
+}
+.pain-resolve{
+  max-width:660px;margin:40px auto 0;
+  font-size:.88rem;line-height:2.1;color:var(--text-body);
+  text-align:center;
+}
+
+/* ===== PILLARS ===== */
+.pillars-section{
+  background:var(--navy);
+  color:var(--white);
+  padding:100px 20px;
+  position:relative;overflow:hidden;
+}
+.pillars-section::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(184,149,46,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 20%, rgba(184,149,46,.04) 0%, transparent 50%);
+}
+.pillars-inner{position:relative;z-index:1}
+.pillars-label{
+  text-align:center;
+  font-family:'Noto Sans JP';font-weight:300;font-size:.72rem;
+  color:var(--gold);letter-spacing:.4em;margin-bottom:16px;
+}
+.pillars-heading{
+  text-align:center;
+  font-family:'Shippori Mincho';font-weight:700;
+  font-size:clamp(1.3rem,2.8vw,1.9rem);
+  color:var(--white);line-height:1.6;
+  margin-bottom:56px;
+}
+.pillars-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  max-width:900px;margin:0 auto;
+}
+.pillar-card{
+  padding:40px 28px;
+  border:1px solid rgba(184,149,46,.2);
+  border-radius:4px;
+  background:rgba(255,255,255,.02);
+  transition:all .4s ease;
+  text-align:center;
+}
+.pillar-card:hover{
+  background:rgba(184,149,46,.05);
+  border-color:rgba(184,149,46,.35);
+  transform:translateY(-4px);
+}
+.pillar-num{
+  font-family:'Noto Sans JP';font-weight:300;font-size:.65rem;
+  color:var(--gold);letter-spacing:.3em;
+  margin-bottom:20px;
+}
+.pillar-title{
+  font-family:'Shippori Mincho';font-weight:700;
+  font-size:1.3rem;margin-bottom:16px;
+  background:linear-gradient(135deg, var(--gold-light), var(--gold-pale));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.pillar-desc{
+  font-size:.82rem;line-height:1.9;color:rgba(255,255,255,.55);
+  font-weight:300;
+}
+
+/* ===== TOPICS ===== */
+.topics-section{background:var(--white);padding:80px 20px}
+.topics-label{
+  text-align:center;
+  font-family:'Noto Sans JP';font-weight:500;font-size:.72rem;
+  color:var(--gold);letter-spacing:.3em;margin-bottom:16px;
+}
+.topics-heading{
+  text-align:center;
+  font-family:'Shippori Mincho';font-weight:700;
+  font-size:clamp(1.2rem,2.2vw,1.5rem);
+  color:var(--navy);margin-bottom:40px;
+}
+.topics-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:12px;
+  max-width:700px;margin:0 auto;
+}
+.topic-chip{
+  display:flex;align-items:center;justify-content:center;
+  padding:14px 8px;
+  border:1px solid var(--border);
+  border-radius:3px;
+  font-size:.82rem;font-weight:500;color:var(--navy);
+  background:var(--white);
+  text-align:center;
+  transition:all .3s ease;
+}
+.topic-chip:hover{
+  background:var(--navy);color:var(--gold-pale);
+  border-color:var(--navy);
+}
+
+/* ===== MESSAGE ===== */
+.message-section{
+  background:var(--off-white);
+  padding:100px 20px;
+  text-align:center;
+}
+.message-text{
+  max-width:640px;margin:0 auto;
+  font-family:'Shippori Mincho';
+  font-size:1rem;line-height:2.3;
+  color:var(--text-body);
+  margin-bottom:40px;
+}
+.message-text strong{
+  color:var(--navy);font-weight:700;
+}
+.message-questions{
+  max-width:560px;margin:0 auto 40px;
+  text-align:left;
+}
+.message-q{
+  font-family:'Shippori Mincho';
+  font-size:.92rem;line-height:1.8;
+  font-weight:600;color:var(--navy);
+  padding:12px 0;
+  border-bottom:1px solid var(--border);
+}
+.message-q:last-child{border-bottom:none}
+.message-closing{
+  font-size:.88rem;line-height:2.1;color:var(--text-body);
+  max-width:640px;margin:0 auto;
+}
+
+/* ===== AUTHORS ===== */
+.authors-section{background:var(--white);padding:80px 20px}
+.authors-label{
+  text-align:center;
+  font-family:'Noto Sans JP';font-weight:500;font-size:.72rem;
+  color:var(--gold);letter-spacing:.3em;margin-bottom:16px;
+}
+.authors-heading{
+  text-align:center;
+  font-family:'Shippori Mincho';font-weight:700;
+  font-size:1.3rem;color:var(--navy);margin-bottom:40px;
+}
+.authors-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:32px;
+  max-width:700px;margin:0 auto;
+}
+.author-card{
+  padding:32px;
+  background:var(--off-white);
+  border-radius:4px;
+  position:relative;
+}
+.author-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg, var(--gold), var(--gold-light));
+}
+.author-name{
+  font-family:'Shippori Mincho';font-weight:700;font-size:1.2rem;
+  color:var(--navy);margin-bottom:16px;
+}
+.author-bio{
+  font-size:.8rem;line-height:1.9;color:var(--text-mid);
+}
+
+/* ===== INTERVIEWS ===== */
+.interview-section{
+  background:var(--off-white);padding:80px 20px;
+  text-align:center;
+}
+.interview-label{
+  font-family:'Noto Sans JP';font-weight:500;font-size:.72rem;
+  color:var(--gold);letter-spacing:.3em;margin-bottom:16px;
+}
+.interview-heading{
+  font-family:'Shippori Mincho';font-weight:700;
+  font-size:1.2rem;color:var(--navy);margin-bottom:8px;
+}
+.interview-sub{
+  font-size:.82rem;color:var(--text-mid);margin-bottom:36px;font-weight:300;
+}
+.interview-names{
+  display:flex;justify-content:center;gap:36px;flex-wrap:wrap;
+}
+.interview-name{
+  font-family:'Shippori Mincho';font-size:1rem;font-weight:600;
+  color:var(--navy);
+  position:relative;padding-bottom:8px;
+}
+.interview-name::after{
+  content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:20px;height:1px;background:var(--gold);
+}
+
+/* ===== CTA ===== */
+.cta-section{
+  background:var(--white);
+  text-align:center;
+  padding:100px 20px;
+  border-top:1px solid var(--border);
+}
+.cta-heading{
+  font-family:'Shippori Mincho';font-weight:800;
+  font-size:clamp(1.3rem,2.5vw,1.8rem);
+  color:var(--navy);line-height:1.8;
+  margin-bottom:12px;
+}
+.cta-heading em{font-style:normal;color:var(--gold)}
+.cta-sub{
+  font-size:.85rem;color:var(--text-mid);font-weight:300;
+  margin-bottom:36px;
+}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:18px 52px;
+  background:var(--navy);
+  color:var(--white);font-weight:600;font-size:.95rem;
+  border:none;border-radius:2px;cursor:pointer;
+  text-decoration:none;transition:all .3s ease;
+  letter-spacing:.06em;
+}
+.cta-btn:hover{
+  background:var(--navy-mid);
+  transform:translateY(-2px);
+  box-shadow:0 12px 36px rgba(10,14,42,.15);
+}
+.cta-info{
+  margin-top:24px;font-size:.75rem;color:var(--text-light);
+  letter-spacing:.04em;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  background:var(--navy);
+  padding:28px 20px;text-align:center;
+  font-size:.7rem;color:rgba(255,255,255,.3);
+  letter-spacing:.05em;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .hero-inner{flex-direction:column;gap:48px;text-align:center}
+  .hero-book{width:280px}
+  .pillars-grid{grid-template-columns:1fr}
+  .authors-grid{grid-template-columns:1fr}
+  .topics-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:600px){
+  .hero-book{width:240px}
+  .topics-grid{grid-template-columns:repeat(2,1fr)}
+  .interview-names{gap:20px}
+  section{padding:72px 16px}
+  .mail-body{padding:24px 20px}
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.reveal{
+  opacity:0;transform:translateY(28px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-book">
+      <div class="book-wrapper">
+        <img src="書影.png" alt="AIで価値を生み出す思考と技術 書影">
+        <div class="book-shine"></div>
+      </div>
+    </div>
+    <div class="hero-text">
+      <span class="hero-label">NEW RELEASE</span>
+      <h1 class="hero-catch">
+        9割の人がまだ気付いていない<br>
+        <em>AIで価値を生み出す</em><br>思考と技術
+      </h1>
+      <p class="hero-lead">
+        AIを「使える」だけでは、もう足りない。<br>
+        効率化の先にある、新しい価値の創出へ——<br>
+        基礎・思考・技術の三部構成で、あなたのAI活用を根本から変える一冊。
+      </p>
+      <a href="#intro" class="hero-cta">
+        詳しく見る
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <p class="hero-meta">諫山圭司・福田匠磨 著 ｜ SBクリエイティブ</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INTRO POEM ===== -->
+<section class="intro-section" id="intro">
+  <div class="container">
+    <div class="intro-poem">
+      <div class="poem-block reveal">
+        この本を手に取ったあなたには<br>
+        <span class="highlight">「今、生成AIが重要だ。」</span><br>
+        という漠然とした認識があることでしょう。<br><br>
+        その直感は間違っていません。
+      </div>
+      <div class="poem-block reveal">
+        では、一歩踏み込んで<br>
+        <span class="highlight">「なぜ生成AIが重要なのか。」</span><br>
+        という問いに<br>
+        答えることはできるでしょうか。
+      </div>
+      <div class="poem-block reveal">
+        私たちはすでに生成AIによって<br>
+        社会が変容していることを<br>
+        日々の生活の中で感じ始めています。<br><br>
+        しかし、その変化の意味を正しく理解し<br>
+        自分の行動に結び付けられている人は<br>
+        <span class="gold">まだ多くありません。</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COURAGE ===== -->
+<section style="background:var(--white);padding:100px 20px">
+  <div class="container">
+    <div class="intro-poem" style="text-align:center">
+      <div class="poem-block reveal">
+        テクノロジーの進化は<br>
+        いつの時代も不安と期待を同時にもたらしてきました。<br><br>
+        新しいものを学ぶことは<br>
+        非常に大きな勇気を必要とします。
+      </div>
+      <div class="poem-block reveal">
+        しかし、考えてみてください。<br>
+        この社会はパソコンの登場も<br>
+        インターネットの普及も<br>
+        どれも乗り越えてきたではありませんか。
+      </div>
+      <div class="poem-block reveal">
+        <span class="gold">生成AIだけでは新しい価値を生み出せません。</span><br>
+        あくまで強みを増幅させるツールに過ぎないのです。<br><br>
+        あなたの経験と判断力に<br>
+        この新しい技術が加われば<br>
+        <span class="highlight">これまで不可能だったことも可能になるでしょう。</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MAIL SECTION ===== -->
+<section class="mail-section">
+  <div class="container">
+    <div class="mail-intro reveal">
+      <p class="mail-intro-label">FROM THE BOOK</p>
+      <h2>はじめに</h2>
+    </div>
+    <div class="mail-card reveal">
+      <div class="mail-header">
+        <div class="mail-header-row"><strong>件名：</strong>10年後の君から</div>
+      </div>
+      <div class="mail-body">
+        <p>昨日、ちょうど就活が解禁されたね。</p>
+        <p>このメールを読んでいる君は、きっと意味がわからないと思う。</p>
+        <p>これは2026年3月の君が「生成AI」と呼ばれるものに頼んで書いてもらっている文章だ。AIがスマートフォンのアプリになっていて、人間の言葉で文章を書くことができる。</p>
+        <p>2016年の君には魔法みたいに聞こえるだろうけど、こっちではもう当たり前の光景になっているんだ。</p>
+        <p>いま君は、エントリーシートの志望動機に頭を抱えているよね。何十社分も似たような文章をひねり出して、それでも「自分の言葉で書け」と言われて途方に暮れている。</p>
+        <p>こっちの世界では、その下書きをAIが数秒で用意してくれる。正直、最初に知ったとき、ホントにあの苦労は何だったんだと思ったよ笑</p>
+        <p>それから、...</p>
+      </div>
+      <div class="mail-ellipsis">...</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== QUESTION ===== -->
+<section class="question-section">
+  <div class="container">
+    <div class="question-main reveal">
+      もし、こんなメールが2016年の3月に送られてきたら<br>
+      あなたはその事実を受け入れられますか。
+    </div>
+    <div class="question-body reveal">
+      <p>10年前、著者は一人の就活生として、日々就職活動に明け暮れていました。もし、たくさんのお祈りメールの中にこれが紛れ込んでいたら、きっと「いたずら」だと思ってしまっていたでしょう。あまりにも荒唐無稽で、現実味のない話ですから。</p>
+      <p>あのときから10年の時間が経ち、2023年にChatGPTの登場によって大きな注目を集めた生成AIは、もはや当たり前のものとして私たちの生活の一部となりつつあります。</p>
+      <p>生成AIの存在は、それだけ圧倒的で不可逆な変化を世界に与えました。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAIN POINTS ===== -->
+<section class="pain-section">
+  <div class="container">
+    <p class="pain-label reveal">REALITY</p>
+    <h2 class="pain-heading reveal">しかし、期待値のピークを過ぎた今——</h2>
+    <div class="pain-list">
+      <div class="pain-item reveal">「業務が劇的に楽になると期待したが、そこまでではない」</div>
+      <div class="pain-item reveal">「話題の使い方を試してみたが、実務では使いにくい」</div>
+    </div>
+    <p class="pain-resolve reveal">
+      しかし、ここで「生成AIはもう終わった」と考えて、次のテクノロジーへと移ってしまうのは時期尚早です。テクノロジーは期待値のピークを過ぎて、それが当たり前のものとなったときに、現実的で有効な使い方を模索していくことこそが、ビジネスにおける最大のチャンスなのです。
+    </p>
+  </div>
+</section>
+
+<!-- ===== THREE PILLARS ===== -->
+<section class="pillars-section">
+  <div class="pillars-inner container-wide">
+    <p class="pillars-label reveal">STRUCTURE</p>
+    <h2 class="pillars-heading reveal">3つの視点から体系的に学ぶ</h2>
+    <div class="pillars-grid">
+      <div class="pillar-card reveal reveal-delay-1">
+        <p class="pillar-num">PART 01</p>
+        <h3 class="pillar-title">基礎編</h3>
+        <p class="pillar-desc">知っていると役立つ生成AIの基礎知識。進化し続ける最新の生成AIサービスの仕組みを理解する。</p>
+      </div>
+      <div class="pillar-card reveal reveal-delay-2">
+        <p class="pillar-num">PART 02</p>
+        <h3 class="pillar-title">思考編</h3>
+        <p class="pillar-desc">生成AIとどう向き合っていくか。AIを活用する上で必要な人間のマインドセットを身に付ける。</p>
+      </div>
+      <div class="pillar-card reveal reveal-delay-3">
+        <p class="pillar-num">PART 03</p>
+        <h3 class="pillar-title">技術編</h3>
+        <p class="pillar-desc">生成AIを仕事で使いこなすコツ。業務で生成AIの性能を100%引き出す設定と準備を学ぶ。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TOPICS ===== -->
+<section class="topics-section">
+  <div class="container">
+    <p class="topics-label reveal">TOPICS</p>
+    <h2 class="topics-heading reveal">幅広いテーマを網羅</h2>
+    <div class="topics-grid">
+      <div class="topic-chip reveal">組織運営</div>
+      <div class="topic-chip reveal">自動処理</div>
+      <div class="topic-chip reveal">人材育成</div>
+      <div class="topic-chip reveal">学習支援</div>
+      <div class="topic-chip reveal">情報収集</div>
+      <div class="topic-chip reveal">情報分析</div>
+      <div class="topic-chip reveal">資料作成</div>
+      <div class="topic-chip reveal">企画開発</div>
+      <div class="topic-chip reveal">業務改善</div>
+      <div class="topic-chip reveal">進捗管理</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MESSAGE FROM AUTHORS ===== -->
+<section class="message-section">
+  <div class="container">
+    <div class="section-divider reveal"></div>
+    <div class="message-text reveal">
+      本書を読み進める中で、時には立ち止まり、<br>
+      あなたの業務や組織に当てはめながら考えてみてください。
+    </div>
+    <div class="message-questions reveal">
+      <div class="message-q">「この考え方は自分の仕事にどう応用できるか」</div>
+      <div class="message-q">「自分のチームだったら、このノウハウをどこに導入できるか」</div>
+      <div class="message-q">「この技術を使えば、今の仕事を大きく変えられるのではないか」</div>
+    </div>
+    <p class="message-closing reveal">
+      そうした「自分ゴト」化した問いを持ちながら読むことで、<br>
+      本書があなたに提供できる<strong>価値は何倍にも高まります。</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ===== AUTHORS ===== -->
+<section class="authors-section">
+  <div class="container">
+    <p class="authors-label reveal">AUTHORS</p>
+    <h2 class="authors-heading reveal">著者紹介</h2>
+    <div class="authors-grid">
+      <div class="author-card reveal">
+        <h3 class="author-name">諫山 圭司</h3>
+        <p class="author-bio">合同会社 Create Ground 代表／株式会社グロースプロパティ代表取締役。みずほ銀行での法人営業、事業再生コンサルティング、DMM.com でのM&A・新規事業立ち上げを経て独立。現在は不動産業をはじめとする複数の事業を経営する傍ら、生成AI関連書籍の執筆活動を精力的に行う。エンジニアではない立場から、生成AIを日々の経営実務に取り入れて活用することに励んでいる。</p>
+      </div>
+      <div class="author-card reveal">
+        <h3 class="author-name">福田 匠磨</h3>
+        <p class="author-bio">マーレ株式会社CEO。九州工業大学先端機能システム工学専攻、物理学と数学科学、プログラミングを学ぶ。公立高校で数学教員として受験指導に携わる。AI ベンチャー企業にてデータサイエンス事業部の立ち上げに従事。その後、スタートアップである株式会社Laboro.AI にて機械学習エンジニア及びAI DX コンサルタントとして活動。現在はマーレ株式会社を率いて、企業のDX課題解決に取り組む。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INTERVIEWS ===== -->
+<section class="interview-section">
+  <div class="container">
+    <p class="interview-label reveal">SPECIAL INTERVIEWS</p>
+    <h2 class="interview-heading reveal">私の考えるAIとの向き合い方</h2>
+    <p class="interview-sub reveal">各界の著名人による珠玉のインタビューを収録</p>
+    <div class="interview-names reveal">
+      <span class="interview-name">まつもとゆきひろ</span>
+      <span class="interview-name">木寺祥友</span>
+      <span class="interview-name">ゆる麻布</span>
+      <span class="interview-name">エハラマサヒロ</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="cta-heading reveal">
+      AIを使える人ではなく<br>
+      <em>AIで新しい価値を生み出せる人</em>になる
+    </h2>
+    <p class="cta-sub reveal">これからの人生に活きるAI活用スキルを身に付けましょう</p>
+    <a href="https://amzn.asia/d/0cHK4xnF" class="cta-btn reveal" target="_blank" rel="noopener">
+      書籍を購入する
+    </a>
+    <p class="cta-info reveal">SBクリエイティブ刊 ｜ ISBN 978-4-8156-4002-6</p>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <p>&copy; 2026 AIで価値を生み出す思考と技術 — 諫山圭司・福田匠磨</p>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
